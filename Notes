@@ -1,0 +1,44 @@
+#The biggest difference between python 2 and 3 is in 3, print uses parentheses
+print 'potatoes ' + 'forever'
+#Make sure to use matching quotes
+variable = 'this is what the variable is equal to'
+# Modulo % is the remainder after devision
+#integers vs floats - you know the drill
+
+# booleans!
+
+#convert types with str(), int(), float()
+#use backslashes to fix strings with apostrophies in them
+#indexes start with 0
+
+#dot notation ONLY works for strings
+print "potatoes Forever".lower()
+print "potatoes forever".upper()
+
+#pad with 0s using %02d - 0 is pad with 0s, 2 is how wide, d means integer
+
+day = 6
+print '03 - %04d - 2018' %(day)
+
+# quests (remove the """ to make it work)
+"""
+name= raw_input("What is your name?")
+quest = raw_input("what is your quest?")
+color = raw_input("what is your favorite color?")
+print "Ah, so your name is %s, your quest is %s, " \
+      "and your favorite color is %s." % (name, quest, color)
+"""
+
+#importing and dates
+
+from datetime import datetime
+print datetime.now()
+now= datetime.now()
+print '%02d-%02d-%04d' % (now.month, now.day, now.year)
+print '%02d:%02d:%02d' % (now.hour, now.minute, now.second)
+
+#IFFSSSSSS
+
+# define a function using def
+def thing():
+    print 'I\'m a function!'
