@@ -1,0 +1,98 @@
+# Different kinds of sorting (sorting lists of numbers for now)
+
+# Selection
+
+def select_sort(num_list):
+    # iterate through the positions in the list
+    for i in range(len(num_list)):
+        # set the minimum position to the current position
+        minimum = i
+        # compare the rest of the list to the minimum position
+        for x in range(i+1, len(num_list)):
+            # If the selected number is smaller than the number at the minimum position, it's the new minimum position
+            if num_list[x] < num_list[minimum]:
+                minimum = x
+        # swap the values of the current position and the minimum position using a temporary variable
+        temp = num_list[i]
+        num_list[i] = num_list[minimum]
+        num_list[minimum] = temp
+    # return the sorted list
+    return num_list
+
+
+# Insertion
+
+def insert_sort(num_list):
+    # create an empty list to put the elements into
+    corrected_list = []
+    # iterate though the list
+    for i in num_list:
+        # iterate though the positions in the sorted list
+        for x in range(len(corrected_list)):
+            # if the current number from the initial list is less than the number at the current position in the sorted list, insert the number at that position
+            if i < corrected_list[x]:
+                corrected_list.insert(x, i)
+        # if the current number is bigger than everything in the sorted list, add it to the end of the sorted list
+        else:
+            corrected_list.append(i)
+    # return the sorted list
+    return corrected_list
+
+
+
+# Quicksort
+def quick_sort(num_list):
+    # swap returns the list with the values of the 2 positions swapped
+    def swap(original_list, pos1, pos2):
+        temp = original_list[pos1]
+        original_list[pos1] = original_list[pos2]
+        original_list[pos2] = temp
+        return original_list
+
+
+    if len(num_list)<= 1:
+        #in base case of 1 item in list, return the list
+        return num_list
+    else:
+        # with the first value being the pivot
+        left_pos = 1
+        right_pos = len(num_list)-1
+        print "Right element position value at start of function call is: %s" %(right_pos)
+        pivot = 0
+        pivot_val = num_list[pivot]
+        print "Left element position value at start of function call is: %s" %(left_pos)
+
+        # while the left position is to the left of the right position
+        while left_pos < right_pos:
+
+            #while the left value is less than the pivot value, move it right
+            while (num_list[left_pos] <= pivot_val) and (left_pos < right_pos):
+                print "Left position value in loop iterating on left side of list is: %s" %(left_pos)
+                left_pos += 1
+
+            # while the right value is greater than the pivot value, move it left
+            while (num_list[right_pos] >= pivot_val) and (left_pos <= right_pos):
+                print "Right position value in loop iterating on right side is: %s" %(right_pos)
+                right_pos -= 1
+
+            # when left is greater than pivot value and right is less than pivot value, swap them
+            num_list = swap(num_list, left_pos, right_pos)
+        # once the left and right meet or pass, then the list is sorted with the pivot spot being where the right position is
+        # because the right posision must now be the furthest right number that is lower than the pivot
+        # so swap the pivot with the right position
+        num_list = swap(num_list, 0, right_pos)
+
+        return quick_sort(num_list[0: right_pos]) + [num_list[right_pos]] + quick_sort(num_list[right_pos+1:])
+
+
+
+
+
+
+
+the_list = [9,2,5,7,3,1,8,3,2]
+
+#print select_sort(the_list)
+#print insert_sort(the_list)
+
+print quick_sort(the_list)

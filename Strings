@@ -1,0 +1,168 @@
+# first non-repeating character
+
+def non_repeat(word):
+    # empty list of first instance of all letters
+    all_letters = []
+    # any letter that has been repeated will go here
+    repeated_letters = []
+    # first_no_repeat will be the answer
+    first_no_repeat = None
+    for i in word.lower():
+        #if it's already in the list of the first instance of all letters
+        if i in all_letters:
+            # add it to the repeated letters list
+            repeated_letters.append(i)
+        else:
+            #if it got here it's the first instance of that letter, so put it in the all_letters list
+            all_letters.append(i)
+
+    #goes through all_letters starting from the first
+    while first_no_repeat == None or len(all_letters)== 0:
+        if all_letters[0] not in repeated_letters:
+            # if it's not in repeated_letters, it's not repeated, and is therefor the answer
+            first_no_repeat = all_letters[0]
+        else:
+            #if it is in repeated_letters, it's deleted
+            del all_letters[0]
+
+    return first_no_repeat #returns the answer
+
+
+
+#first repeating character with fewer lines of code
+def short_no_repeat(word):
+    for i in range(len(word)):
+        #checks if the letter has appeared before it's current place in line
+        if word[i].lower() not in word[:i].lower():
+            # checks if the letter has appeared after it's current place in line
+            if word[i].lower() not in word[(i+1):].lower():
+                #if it hasn't appeared before or after, it's non-repeat
+                return word[i].lower()
+        else:
+            #next character
+            i += 1
+
+#no repeat using a dictionary
+def dict_no_repeat(word):
+    #dictionary for counting how many times a letter has been used
+    dict = {}
+    #answer will be the final answer
+    answer = None
+    for i in word.lower():
+        #if the key already exists
+        if i in dict:
+            # add 1 to the value of that key
+            dict[i] += 1
+        else:
+            #else make that key's value 1
+            dict[i] = 1
+
+    for i in word.lower():
+        #goes through the word finding the first key with a value of 1
+        if dict[i] == 1:
+            answer = i
+            break
+    return answer
+
+#removing all of specific characters from a string
+def remove_specific_chars(str, remove):
+    #new_string will be the answer
+    new_string = ""
+
+    for i in range(len(str)):
+        #if the character is not in remove
+        if str[i].lower() not in remove:
+            # add it to the new string
+            new_string += str[i]
+
+    #give answer at the end
+    return new_string
+
+#removes specific characters using a dictionary - better for a longer list of characters to remove
+def remove_spec_dict(str, remove):
+    #dictionary for removal characters
+    dict = {}
+    #new_string is what the answer will be
+    new_string=""
+
+    for i in remove:
+        #marks letters for removal
+        dict[i.lower()]= True
+    for i in str:
+        #if that letter isn't marked for removal
+        if i.lower() not in dict:
+            #add to new string
+            new_string += i
+    return new_string
+
+
+def reverse_words(str):
+    #reverses the order of words in a string
+
+    #list of all words in order
+    list_of_words = []
+    # current word
+    word = ""
+    #end answer
+    answer = ""
+
+    # for every character
+    for i in str:
+        #if it's not a space
+        if i != " ":
+            # add it to word
+            word += i
+
+        #once it is a space, add whole word to list
+        else:
+            list_of_words.append(word)
+            word = "" #reset word
+    #add the last word in(as that wont end in a space)
+    list_of_words.append(word)
+
+    #time to pop them off the list to reverse the list:
+    while len(list_of_words) > 1:
+        answer += list_of_words.pop() + " " #adding the words back in reverse order
+    # add the last word with no space
+    answer += list_of_words[0]
+
+    return answer
+
+def turn_string_into_num(string):
+    # turns a string into a number without int()
+    # Dictionary of all strings and their equivalent number
+    num_dict = {"0": 0, "1": 1, "2":2, "3":3, "4": 4, "5":5, "6": 6, "7":7, "8":8, "9":9,}
+    # initially the sign is positive
+    sign = "positive"
+    # answer will be the final answer
+    answer = 0
+
+    #for every string[i]
+    for i in range(len(string)):
+        # in the cases where the first character is a -, we need to set the sign to negative
+        if string[i] == "-":
+            sign = "negative"
+        # using recursion and the correct power of 10, add in numbers
+
+        else:
+            answer += num_dict[string[i]] * 10**(len(string)- (i+1))
+
+    # take care of the sign of the number
+    if sign == "negative":
+        answer *= -1
+
+    return answer
+
+
+
+
+
+
+# Tests:
+
+print non_repeat("Row row row your boat, gently down the stream")
+print short_no_repeat("Row row row your boat, gently down the stream")
+print dict_no_repeat("Row row row your boat, gently down the stream")
+print remove_specific_chars("Row row row your boat, gently down the stream", "aeiou")
+print reverse_words("Row row row your boat, gently down the stream")
+print turn_string_into_num("-456123892")

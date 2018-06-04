@@ -1,0 +1,51 @@
+def permutations(letters):
+    #base case - only 1 letter
+    if len(letters)==1:
+        return letters
+
+    # empty list that the answer will be built in
+    answer = []
+    for i in range(len(letters)):
+        answer += [letters[i] + k for k in permutations(letters[:i] + letters[i + 1:])]
+
+    return answer
+
+
+#lists all unique combinations
+def combinations(letters):
+    #base case and always for whatever character we're using - current character (first character) added to answer
+    answer = [letters[0]]
+
+    #if not base case and there are more characters:
+    if len(letters)>1:
+
+        #add all smaller combinations to answer
+        answer += combinations(letters[1:])
+
+        # add current character + smaller combinations to answer
+        answer += [letters[0] + k for k in combinations(letters[1:])]
+
+    #give the answer
+    return answer
+
+
+
+def phone_words(number):
+    phone_alphabet_list=[["0"], ["1"], ["A", "B", "C"],["D", "E", "F"], ["G", "H", "I"], ["J", "K", "L"], ["M", "N", "O"],
+                         ["P", "R", "S"], ["T", "U", "V"], ["W", "X", "Y"]]
+
+    answer = []
+
+    #base case - last number in phone number
+    if len(number)== 1:
+        answer += phone_alphabet_list[number[0]]
+    else:
+        for i in phone_alphabet_list[number[0]]:
+            answer += [i + k for k in phone_words(number[1:])]
+
+    return answer
+
+
+print phone_words([2,2,8])
+print permutations("potato")
+print combinations("12345")

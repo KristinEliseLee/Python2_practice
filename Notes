@@ -1,8 +1,10 @@
 #The biggest difference between python 2 and 3 is in 3, print uses parentheses
+"""
 print 'potatoes ' + 'forever'
+"""
 #Make sure to use matching quotes
 variable = 'this is what the variable is equal to'
-# Modulo % is the remainder after devision
+# Modulo % is the remainder after division
 #integers vs floats - you know the drill
 
 # booleans!
@@ -11,15 +13,16 @@ variable = 'this is what the variable is equal to'
 #use backslashes to fix strings with apostrophies in them
 #indexes start with 0
 
-#dot notation ONLY works for strings
+#dot notation ONLY works for strings(except when it doesn't, which is often)
+"""
 print "potatoes Forever".lower()
 print "potatoes forever".upper()
-
+"""
 #pad with 0s using %02d - 0 is pad with 0s, 2 is how wide, d means integer
-
+"""
 day = 6
-print '03 - %04d - 2018' %(day)
-
+print '03 - %02d - 2018' %(day)
+"""
 # quests (remove the """ to make it work)
 """
 name= raw_input("What is your name?")
@@ -30,15 +33,157 @@ print "Ah, so your name is %s, your quest is %s, " \
 """
 
 #importing and dates
-
+"""
 from datetime import datetime
 print datetime.now()
 now= datetime.now()
 print '%02d-%02d-%04d' % (now.month, now.day, now.year)
 print '%02d:%02d:%02d' % (now.hour, now.minute, now.second)
+"""
+#import math means I would type math.sqrt()
+#from math import sqrt means I would type sqrt
+#from math import * imports all of math
+#prints everything in a module - remove the quotes to use
+"""
+import math
+everything = dir(math)
+print everything
+"""
 
 #IFFSSSSSS
 
 # define a function using def
 def thing():
     print 'I\'m a function!'
+
+# max() returns biggest value
+# min() returns smallest value
+# abs() returns absolute value
+# type() tells you what type
+
+#lists and dictionaries
+"""
+potato = ['large potato', 'medium potato', 'small potato']
+potato.append("smaller potato")
+print potato
+
+# slices [1:4] would start at the 2nd item and go through to the 4th item, stopping before the 5th
+potato.index('smaller potato')
+
+potato.sort()
+potato.remove('smaller potato')
+# pop removes the item at that index, and returns it
+print potato.pop(1)
+print potato
+
+potato_dictionary = {'key1' : 1, 'key2': 2}
+del potato_dictionary['key1']
+
+print potato_dictionary
+
+# for loops
+for item in potato:
+    #do a thing
+    print item
+
+# range(stop), range(start, stop), range(start, stop, step) remember these never include the stop
+print range (2, 38, 4)
+
+# for i in range(len(list to iterate through), do thing at list to iterate through [i}
+print " ".join(potato)
+"""
+#random imports - check them out
+
+# for dictionaries .items, .keys, .values
+
+# use Break to get out of a for loop
+# while else - like if else, but not. can also have for else
+
+# zip pairs elements in multiple lists, stopping after the shortest list
+"""
+list_a = [3, 9, 17, 15, 19]
+list_b = [2, 4, 8, 10, 30, 40, 50, 60, 70, 80, 90]
+
+for a, b in zip(list_a, list_b):
+    # Add your code here!
+    print max(a,b)
+"""
+"""
+def is_prime(x):
+    # checks if less than 2 or not an integer
+    if x < 2 or x % 1 != 0 :
+        return False
+    #checks for divisibility
+    else:
+        for i in range(2, x-1):
+            if x % i == 0:
+              return "%s is divisible by %s"%(x, i)
+              break
+        else:
+            return True
+
+guess= raw_input("NUMBER")
+while guess != "stop":
+    print is_prime(int(guess))
+    guess= raw_input("NUMBER")
+"""
+# .split and .join - learn these
+# .sort is apparently picky. Use sorted()
+
+# list generator
+evens_to_50 = [i for i in range(51) if i % 2 == 0]
+print evens_to_50
+
+# negative stride is how to reverse things
+
+#lambda
+my_list = range(16)
+filter(lambda x: x % 3 == 0, my_list)
+
+# bit wise:
+# & AND- if both are 1
+# | OR if either is 1
+# ^ XOR if only one is 1
+# ~ NOT - adds 1 and makes it negative
+
+# masks - dealing with a specific bit
+# is that bit on?
+num  = 0b1100
+mask = 0b0100
+desired = num & mask
+if desired > 0:
+    print "Bit was on"
+
+# OR can turn a bit on
+# XOR flips bits
+
+
+#classes
+
+# SUPER function
+class Employee(object):
+    """Models real-life employees!"""
+    def __init__(self, employee_name):
+        self.employee_name = employee_name
+
+    def calculate_wage(self, hours):
+        self.hours = hours
+        return hours * 20.00
+
+# Add your code below!
+class PartTimeEmployee(Employee):
+    def calculate_wage(self, hours):
+        self.hours = hours
+        return hours * 12.00
+    def full_time_wage(self, hours):
+        return super (PartTimeEmployee, self).calculate_wage(hours)
+
+milton = PartTimeEmployee("Milton")
+print milton.full_time_wage(10)
+
+
+
+# __repr__() is a way to change how it represents itself(classes)
+
+#input and output, probably best to look this up more indepth
+

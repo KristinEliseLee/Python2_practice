@@ -1,0 +1,116 @@
+
+# Quicksort
+def quick_sort(num_list):
+    # swap returns the list with the values of the 2 positions swapped
+    def swap(original_list, pos1, pos2):
+        temp = original_list[pos1]
+        original_list[pos1] = original_list[pos2]
+        original_list[pos2] = temp
+        return original_list
+
+
+    if len(num_list)<= 1:
+        #in base case of 1 item in list, return the list
+        return num_list
+
+    else:
+
+        print num_list
+        pivot = 0
+        pivot_val = num_list[pivot]
+        print "pivot position at start is %s and value is %s" %(pivot, pivot_val)
+        left_pos = 1
+        print "left position at start is %s and value is %s" %(left_pos, num_list[left_pos])
+        right_pos = len(num_list)-1
+        print "Right position at start is %s and value is %s" %(right_pos, num_list[right_pos])
+
+
+        # while the left position is to the left of the right position
+        while left_pos < right_pos:
+            print "while left position < right position"
+
+            #while the left value is less than the pivot value, move it right
+            while (num_list[left_pos] <= pivot_val) and (left_pos < right_pos):
+                print "while the left value is less than or equal to the pivot value, and the left position less than the right position"
+
+                left_pos += 1
+                print "Left position is increased to %s and value is %s" % (left_pos, num_list[left_pos])
+
+            # while the right value is greater than the pivot value, move it left
+            while (num_list[right_pos] >= pivot_val) and (left_pos <= right_pos):
+                print "while the right value is less than or equal to the pivot value, and the left position is less than the right position"
+
+                right_pos -= 1
+                print "Right position is increased to %s and value is %s" % (right_pos, num_list[right_pos])
+
+            # when left is greater than pivot value and right is less than pivot value, swap them
+            if (left_pos < right_pos) and (num_list[left_pos] > pivot_val) and (num_list[right_pos]< pivot_val):
+                print num_list
+                print "swapping the values at right position %s and left position %s" % (right_pos, left_pos)
+                swap(num_list, left_pos, right_pos)
+                print num_list
+
+        # once the left and right meet or pass, then the list is sorted with the pivot spot being where the right position is
+        # because the right posision must now be the furthest right number that is lower than the pivot
+        # so swap the pivot with the right position
+
+        print num_list
+        print "The right position is %s and value is %s, and it is swapped with the pivot if it is less than the pivot" %(right_pos, num_list[right_pos])
+        if num_list[right_pos] < pivot_val:
+            num_list = swap(num_list, 0, right_pos)
+        print num_list
+
+        return quick_sort(num_list[0: right_pos]) + [num_list[right_pos]] + quick_sort(num_list[right_pos+1:])
+
+
+
+
+
+# second attempt at quick sort
+def quick_sort_2(the_list):
+    # base case - sorting a list that is 1 element or fewer
+    if len(the_list)<=1:
+        return the_list
+
+    # Recursive part
+    else:
+        # The pivot I'm choosing is the element in the middle of the list, rounded down - which is good for either a
+        # semi-sorted list or a completely random list, as if it's random it doesn't matter what element is chosen as the pivot
+        # And if it's somewhat sorted than the middle element is more likely to split the list into somewhat equal halves
+        pivot = len(the_list)/2
+        # current_element is the position we're currently sorting, before the pivot
+        current_element = 0
+        # While current_element is before the pivot
+        while current_element < pivot:
+            # If the element at position current_element is greater than the element at the pivot, move it to the end of the list
+            if the_list[current_element] > the_list[pivot]:
+                too_big = the_list.pop(current_element)
+                the_list.append(too_big)
+                # Because we'd be removing 1 element from before the pivot, the pivot moves left 1 space
+                pivot -= 1
+            # Then we move to the next element
+            current_element += 1
+
+        # current_element is the position we're currently sorting after the pivot
+        current_element = pivot +1
+        # While current_element is not passed the end of the list
+        while current_element < len(the_list):
+            # If the element at position current_element is less than the element at the pivot, it moves to the start of the list
+            if the_list[current_element] < the_list[pivot]:
+                too_small = the_list.pop(current_element)
+                the_list.insert(0, too_small)
+                # The pivot moves 1 space right
+                pivot +=1
+            # Then we move onto the next element to test
+            current_element += 1
+        return quick_sort_2(the_list[0:pivot]) + [the_list[pivot]] + quick_sort_2(the_list[pivot+1:])
+
+
+
+
+a_list = [8,2,4,7,0,-1,4,20,-16]
+short_list = [56, 4]
+print quick_sort(a_list)
+
+print quick_sort_2(a_list)
+print quick_sort_2(short_list)

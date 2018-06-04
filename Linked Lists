@@ -1,0 +1,101 @@
+class Node(object):
+    #Node will be the class each part of the linked list is in
+
+    def __init__(self, val):
+        #creating the Node class with a value and an empty next node
+
+        self.val = val
+        self.next = None
+
+    def traverse(self):
+        #prints the node values in list order
+        node = self
+
+        while node != None:
+        #print the value, then move to the next one
+            print node.val
+            node = node.next
+
+
+
+def remove_dupes(link):
+    # remove duplicates outside class
+
+    #empty list of all values
+    list_of_values = []
+    #adds the first value to the list
+    list_of_values.append(link.val)
+    #moves though the list starting with the 2nd value
+    while link.next != None:
+        #if the value not already in list of values
+        if link.next.val not in list_of_values:
+            list_of_values.append(link.next.val)
+            link = link.next
+        #if it's on the list, skip it!
+        else:
+            link.next = link.next.next
+            #if it's got nothing after it, stop
+            if link.next == None:
+                break
+            else:
+                #go to the next one
+                link = link.next
+
+
+
+
+
+def get_k_from_last(k, link):
+    # get the kth to last element from a linked list
+
+    #if k is bad (less than zero, or not a whole number:
+    if k < 0 or type(k) != int:
+        return None
+    # i is the spacer, it will eventually == k
+    i = 0
+    #a will eventually be the number we return
+    a = link
+    #b will eventually be last number in list`
+    b = link
+
+    #while the two links are not k distance apart
+    while i < k:
+        #increase the distance
+        b = b.next
+        i += 1
+
+    #while the 2nd link is not the last one:
+    while b.next != None:
+        #Move both over 1
+        a = a.next
+        b = b.next
+
+    return a
+
+
+#making the actual list to play with
+#link1 is the head of the list
+link1 = Node(1)
+link2 = Node(2)
+link3 = Node(3)
+link4 = Node(4)
+link5 = Node(3)
+
+link1.next = link2
+link2.next = link3
+link3.next = link4
+link4.next = link5
+
+
+#Testing
+
+# Traverse
+print "initial list"
+link1.traverse()
+
+remove_dupes(link1)
+print "after removing dupes"
+link1.traverse()
+
+print "2nd from the last node is: %s" %(get_k_from_last(2,link1).val)
+

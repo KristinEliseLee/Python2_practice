@@ -1,0 +1,220 @@
+
+class Node:
+    #the class that each node will be
+
+
+    def __init__(self, data):
+        #Initiates with data, an empty right link and an empty left link
+        self.left = None
+        self.right = None
+        self.data = data
+
+    def insert(self, data):
+        # uses recursion to put a new node on the tree following lower on the left, higher on the right
+        #if the value is higher than the value of the current node
+        if data < self.data:
+            #if there is no left node, make it the self node
+            if self.left is None:
+                self.left = Node(data)
+
+            #if there is a left node, use recursion on the left node
+            else:
+                self.left.insert(data)
+            #if the value is higher than the value of the current node
+        elif data > self.data:
+            #if there is no right node
+            if self.right is None:
+                #make the value be the right node
+                self.right = Node(data)
+            else:
+                #use recursion on the right node
+                self.right.insert(data)
+        elif self.data == data:
+            #if the data is already on the tree
+            print "already on the tree"
+
+        else:
+            #if it's not less than, greater than, or equal to, the current node, then it can't go on the tree
+            print "this can't go on the tree"
+
+
+    def lookup(self, data, parent=None):
+        # finds the parent node and node with the data asked for, returned in a tuple (node, parent)
+
+        # if target data is less than current node's:
+        if data < self.data:
+            #if there is nothing to the current node's left, then the target node doesn't exist
+            if self.left is None:
+                return None, None
+            #if left does exist - use the function recursively, using current node as the parent, and the left node as self
+            return self.left.lookup(data, self)
+
+        #if target data is greater than curent node's:
+        elif data > self.data:
+            #if there is no right node, then the target node doesn't exit
+            if self.right is None:
+                return None, None
+            #if right does exist - use the function recursively, using current node as the parent, and the right node as self.
+            return self.right.lookup(data, self)
+
+        #if the data of the current node is the one you're looking for, return self and parent in a tuple
+        elif data == self.data:
+            return self, parent
+        #if the data you entered doesn't work (i.e. a string as the data)
+        else:
+            return None, None
+
+    def children_count(self):
+        # says how many children a node has
+        cnt = 0
+        if self.left:
+            cnt += 1
+        if self.right:
+            cnt += 1
+        return cnt
+
+    def delete(self, data):
+        #removes a node from the tree by value
+        node, parent = self.lookup(data)
+        if node is not None:
+            # if node exists
+            children_count = node.children_count()
+            if children_count == 0:
+                # if node has no children, del node
+                if parent:
+                    if parent.left is node:
+                        parent.left = None
+                    else:
+                        parent.right = None
+                    del node
+                else:
+                    self.data = None
+
+            elif children_count == 1:
+                # if node has 1 child, replace node with child
+                if node.left:
+                    n = node.left
+                else:
+                    n = node.right
+                if parent:
+                    if parent.left is node:
+                        parent.left = n
+                    else:
+                        parent.right = n
+                    del node
+                else:
+                    self.left = n.left
+                    self.right = n.right
+                    self.data = n.data
+            else:
+                # if node has 2 children, find successor
+                # go right once, then left until you can't anymore - that's the successor
+                parent = node
+                successor = node.right
+                while successor.left:
+                    parent = successor
+                    successor = successor.left
+                node.data = successor.data
+                # make sure if there is a right child of the successor
+                # it gets linked back to the parent
+                if parent.left == successor:
+                    parent.left = successor.right
+                else:
+                    parent.right = successor.right
+
+    def print_tree(self):
+        # uses recursion to print all the left, and all the right, in order
+        if self.left:
+            self.left.print_tree()
+        print self.data
+        if self.right:
+            self.right.print_tree()
+
+    def height(self):
+        # finds the height of the tree using recursion of adding one to the highest value of left or right height of the
+        # child trees
+        l = 0
+        r = 0
+        if self.left != None:
+            l = self.left.height()
+        if self.right != None:
+            r = self.right.height()
+        return max(l, r) + 1
+
+    def print_inorder_no_recursion(self):
+        # instead of recursion, uses while and a stack to print in order
+        node = self
+        stack = []
+        while len(stack) > 0 or node != None:
+            #as long as there are nodes on the stack or a node to work with
+            while node != None:
+                # adds nodes to the stack going down to the left
+                stack.append(node)
+                node = node.left
+            while len(stack) > 0 and node == None:
+                #prints the node, and get's the node's right child node if it exists
+                node = stack.pop()
+                print node.data
+                node = node.right
+
+    def lowest_common_ancestor(self, val1, val2):
+        #because it's a binary search tree, the lowest ancestor will be whatever number is between the two values
+        high = max(val1, val2)
+        low = min(val1, val2)
+        node = self
+        while high < node.data:
+            node = node.left
+        while low > node.data:
+            node = node.right
+        return node
+
+
+
+"""Took a lot of trial and error, but found that the below code for rotation does not work because you cant change what "self" equals, which is good to know"""
+"""
+    def rotate_right(self):
+        # this doesn't work unfortunately, because you can't change what self equals, only things like self.data
+        old_root = self #will be the new right
+        print str(old_root.data) + " will be the old root"
+        new_root = self.left # will be the new root
+        print str(new_root.data) + " will be the new root"
+        new_left_of_old_root = self.left.right #will be new new left of the new right
+        print str(new_left_of_old_root.data) + " will be the new left of the old root"
+
+
+        self.right = old_root
+        print str(self.right.data) + " is the new right of the root"
+        self.right.left = new_left_of_old_root
+        print str(self.right.left.data) + " is the new left of the new right of the new root"
+        self = new_root
+"""
+
+
+#a tree to test
+root = Node(10)
+root.insert(20)
+root.insert(15)
+root.insert(30)
+root.insert(5)
+root.insert(14)
+root.insert(16)
+root.insert(9)
+root.insert(8)
+root.insert(7)
+root.insert(6)
+root.insert(4)
+root.insert(3)
+root.insert(2)
+root.insert(1)
+
+print "first print tree"
+root.print_tree()
+print "Deleted node value 15"
+root.delete(15)
+print "second print tree"
+root.print_tree()
+
+print "the tree is %s tall" %(root.height())
+print "tree printed without recursion"
+root.print_inorder_no_recursion()
+print "the lowest common ancestor of 16 and 5 is %s" %(root.lowest_common_ancestor(16, 5).data)
