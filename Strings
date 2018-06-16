@@ -155,6 +155,33 @@ def turn_string_into_num(string):
 
 
 
+def longest_word_once_through(sentence):
+
+    # longest_word will be the longest current word
+    longest_word = ""
+    # current_word will be the word we are currently working on
+    current_word = ""
+
+    # Iterating though the characters in sentence
+    for i in sentence:
+
+        # If it's a letter, add it to the current word
+        if i.isalpha():
+            current_word += i
+
+        # If it's not a letter, compare longest word to current word, whichever is longest is set to longest_word
+        else:
+            if len(current_word) > len(longest_word):
+                longest_word = current_word
+
+            # Current word is reset to empty
+            current_word = ""
+
+    return longest_word
+
+
+
+
 
 
 
@@ -166,3 +193,4 @@ print dict_no_repeat("Row row row your boat, gently down the stream")
 print remove_specific_chars("Row row row your boat, gently down the stream", "aeiou")
 print reverse_words("Row row row your boat, gently down the stream")
 print turn_string_into_num("-456123892")
+

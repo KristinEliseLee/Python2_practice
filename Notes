@@ -144,18 +144,18 @@ filter(lambda x: x % 3 == 0, my_list)
 # & AND- if both are 1
 # | OR if either is 1
 # ^ XOR if only one is 1
-# ~ NOT - adds 1 and makes it negative
+# ~ NOT - adds 1 and makes it negative ( ~x == -(x+1)
 
 # masks - dealing with a specific bit
 # is that bit on?
-num  = 0b1100
+num = 0b1100
 mask = 0b0100
 desired = num & mask
 if desired > 0:
     print "Bit was on"
-
-# OR can turn a bit on
-# XOR flips bits
+# using masks:
+# OR can turn a bit on (but not off) 0b1100 | 0b0100 == 0b1100
+# XOR flips bits 0b1100 ^ 0b0100 == 0b1000
 
 
 #classes

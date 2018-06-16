@@ -1,0 +1,20 @@
+# Starcase of # printed
+
+def staircase(steps):
+    spaces = steps - 1
+    while spaces >= 0:
+        print " " * spaces + "#" * (steps- spaces)
+        spaces -= 1
+
+staircase(4)
+staircase(8)
+
+# add all numbers up to number (ie add_from_1(4) = 1 + 2 + 3 + 4:
+def add_from_1(number):
+    answer = 0
+
+    while number >=0:
+        answer += number
+        number -= 1
+
+    return answer
